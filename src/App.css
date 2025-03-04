@@ -142,3 +142,41 @@ body {
   pointer-events: none;
   transition: all 0.3s ease;
 }
+/* Estilos para letras */
+.lyricsContainer {
+  height: 120px;
+  margin: 20px auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: hidden;
+  max-width: 600px;
+}
+
+.lyricLine {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.1rem;
+  min-height: 1.5em;
+  transition: all 0.3s ease;
+}
+
+.currentLyric {
+  color: var(--album-accent);
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.errorMessage {
+  color: #ff4444;
+  font-size: 0.9rem;
+}
+
+/* Melhorias no progresso */
+.progressBar {
+  --album-accent: #1DB954; /* Fallback */
+  width: 80%;
+  height: 3px;
+  margin: 15px auto;
+}
