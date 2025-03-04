@@ -6,7 +6,7 @@ import { MediaPlayer, MediaProvider } from '@vidstack/react';
 import { DefaultAudioLayout, defaultLayoutIcons } from '@vidstack/react/player/layouts/default';
 import { useEffect, useState } from 'react';
 import ColorThief from 'colorthief';
-
+import { Client, FindLyricsResponse } from 'lrclib-api'
 // Função para formatar segundos em MM:SS
 const formatTime = (seconds) => {
   if (!seconds || isNaN(seconds)) return '00:00';
@@ -14,14 +14,26 @@ const formatTime = (seconds) => {
   const remainingSeconds = Math.floor(seconds % 60);
   return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
 };
+const client = new Client();
 
 export default function App() {
     const [track, setTrack] = useState(undefined);
-    
+    const [lyrics, setLyrics] = useState(undefined)
     async function ftch() {
         const tr = await fetch("https://api.hunter.fm/station/jic321Sd-dawd1S27s-Se24s1daw2/live");
         const tra = await tr.json();
         setTrack(tra);
+        const lrc = await client.findLyrics({
+            track_name: tra.now.name,
+            artist_name: tra.now.singers[0],
+            // duration: tra.now.info.duration
+        })
+        const synced = await client.getSynced({
+            track_name: lrc.trackName,
+            artist_name: lrc.artistName,
+            // duration: lrc.duration
+        });
+        setLyrics(lrc && synced ? synced : []);
     }
 
     useEffect(() => {
@@ -43,7 +55,6 @@ export default function App() {
             };
         }
     }, [track]);
-
     // Calcula o tempo decorrido
     const elapsedSeconds = track 
       ? Math.floor((new Date(track.timestamp) - new Date(track.now.time.start)) / 1000)
@@ -82,6 +93,15 @@ export default function App() {
                 <MediaProvider />
                 <DefaultAudioLayout icons={defaultLayoutIcons} />
             </MediaPlayer>
+            <div className="lyricsContainer"> {/*This shouldn't scroll, it only will display 3 lyrics line, the second line will be the actual lyrics line*/}
+                { lyrics &&
+                    lyrics.map((lrc) => (
+                    <p>
+                        {lrc.text} - {lrc.startTime.toFixed()}
+                    </p>
+                    ))
+                }
+            </div>
         </div>
     )
 }
