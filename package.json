@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@vidstack/react": "^1.12.13",
     "colorthief": "^2.6.0",
+    "framer-motion": "^12.4.10",
     "hls.js": "^1.5.20",
     "lrclib-api": "^2.0.0",
     "react": "^19.0.0",
