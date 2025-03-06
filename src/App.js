@@ -35,12 +35,12 @@ const SyncedLyrics = ({ lyrics, elapsedSeconds }) => {
   }, [lyrics, elapsedSeconds]);
 
   // Sempre que a linha ativa mudar, faz scroll para ela
-  useEffect(() => {
+  /*useEffect(() => {
     if (activeRef.current) {
      // activeRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }, [activeIndex]);
-
+*/
   return (
     <div className="lyrics-container">
       {lyrics.map((line, index) => (
